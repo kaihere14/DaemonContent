@@ -22,7 +22,7 @@ graph TD
     B --> C[Script Evaluation]
     C --> D[Voiceover Generation]
     D --> E[Video Rendering]
-    E --> F[Human Approval (optional)]
+    E --> F["Human Approval (optional)"]
     F --> G[Platform Publishing]
     G --> H[Analytics Feedback Loop]
 ```
@@ -37,12 +37,12 @@ graph TD
 
 ## Platform Support
 
-| Platform        | Status       | Notes                      |
-|-----------------|--------------|----------------------------|
-| Instagram Reels | v1 - Active  | Basic publishing support   |
-| YouTube Shorts  | In Development | API integration pending |
-| TikTok          | Planned      | Requires API access      |
-| LinkedIn        | Research     | Format compatibility check |
+| Platform        | Status         | Notes                       |
+|-----------------|----------------|-----------------------------|
+| Instagram Reels | v1 - Active    | Basic publishing support    |
+| YouTube Shorts  | In Development | API integration pending     |
+| TikTok          | Planned        | Requires API access         |
+| LinkedIn        | Research       | Format compatibility check  |
 
 All adapters use a standardized `Content` interface:
 ```ts
@@ -101,26 +101,26 @@ interface Project {
 ```
 
 **Current Projects**:
-| Project       | Description                  | URL              |
-|---------------|------------------------------|------------------|
-| DaemonDoc     | README automation            | daemondoc.online |
-| NovaDrive     | AI-enhanced cloud storage    | (coming soon)    |
-| HireAI        | AI recruitment platform      | (in development) |
+| Project   | Description               | URL              |
+|-----------|---------------------------|------------------|
+| DaemonDoc | README automation         | daemondoc.online |
+| NovaDrive | AI-enhanced cloud storage | (coming soon)    |
+| HireAI    | AI recruitment platform   | (in development) |
 
 ---
 
 ## Technical Stack
 
-| Component       | Technology                  |
-|----------------|---------------------------|
-| **LLM**        | Qwen via OpenRouter (free)  |
-| **TTS**        | Piper (local)               |
-| **Video**      | Remotion                    |
-| **Queue**      | BullMQ + Redis              |
-| **Database**   | MongoDB Atlas              |
-| **Backend**    | Bun + Express              |
-| **Dashboard**  | Next.js                    |
-| **Hosting**    | Render                     |
+| Component    | Technology                 |
+|--------------|----------------------------|
+| **LLM**      | Qwen via OpenRouter (free) |
+| **TTS**      | Piper (local)              |
+| **Video**    | Remotion                   |
+| **Queue**    | BullMQ + Redis             |
+| **Database** | MongoDB Atlas              |
+| **Backend**  | Bun + Express              |
+| **Dashboard**| Next.js                    |
+| **Hosting**  | Render                     |
 
 **Monthly Cost**: $7 (free tier compatible)
 
@@ -133,14 +133,14 @@ DaemonContent/
 ├── backend/
 │   ├── app/              ← Core modules
 │   │   ├── agent/        ← Orchestration
-│   │   ├── evaluator/   ← Script scoring
-│   │   ├── renderer/    ← Video generation
-│   │   ├── poster/      ← Platform adapters
-│   │   └── config/      ← Identity + registry
-│   ├── clips/           ← Background footage
-│   └── outputs/         ← Rendered videos
-├── client/             ← Dashboard
-│   └── app/            ← Next.js components
+│   │   ├── evaluator/    ← Script scoring
+│   │   ├── renderer/     ← Video generation
+│   │   ├── poster/       ← Platform adapters
+│   │   └── config/       ← Identity + registry
+│   ├── clips/            ← Background footage
+│   └── outputs/          ← Rendered videos
+├── client/               ← Dashboard
+│   └── app/              ← Next.js components
 ```
 
 ---
@@ -196,22 +196,22 @@ APPROVAL_REQUIRED=true
 
 ## Development Roadmap
 
-✅ **Completed**  
-- Local rendering pipeline  
-- Basic Instagram adapter  
-- Core identity system  
+✅ **Completed**
+- Local rendering pipeline
+- Basic Instagram adapter
+- Core identity system
 
-🚀 **In Progress**  
-- YouTube Shorts adapter  
-- Advanced analytics dashboard  
-- Trend detection from multiple sources  
+🚀 **In Progress**
+- YouTube Shorts adapter
+- Advanced analytics dashboard
+- Trend detection from multiple sources
 
 ---
 
 ## Related Projects
 
-- [DaemonDoc](https://daemondoc.online) – AI README automation  
-- [PRD](./PRD.md) – Full product requirements document  
+- [DaemonDoc](https://daemondoc.online) – AI README automation
+- [PRD](./PRD.md) – Full product requirements document
 
 ---
 
