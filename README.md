@@ -1,21 +1,22 @@
-
 # 🤖 DaemonContent
 
 🛠️ **DaemonContent** is an autonomous AI content engine that transforms trending topics into publishable videos across social platforms. It operates as a modular pipeline with configurable identities and conversion-focused strategies.
 
 ---
-## 🌟 Key Features
 
-- **End-to-end automation**: Trend detection → script generation → video rendering → platform publishing
-- **Multi-platform support**: Platform-specific adapters with uniform content objects
-- **Configurable identities**: Define niche, tone, and audience for each channel
-- **Conversion optimization**: 5% of content promotes products from the project registry
-- **Modular architecture**: Replaceable components (LLM, TTS, renderers)
+## 🌟 Features
+
+- **End-to-end automation**: Trend detection → script generation → video rendering → platform publishing  
+- **Multi-platform support**: Platform-specific adapters with uniform content objects  
+- **Configurable identities**: Define niche, tone, and audience for each channel  
+- **Conversion optimization**: 5% of content promotes products from the project registry  
+- **Modular architecture**: Replaceable components (LLM, TTS, renderers)  
 
 ---
-## 🏗️ Architecture Overview
 
-mermaid
+## 🧠 Architecture
+
+```mermaid
 graph TD
     A[Trend Detection] --> B[Script Generation]
     B --> C[Script Evaluation]
@@ -24,15 +25,16 @@ graph TD
     E --> F["Human Approval (optional)"]
     F --> G[Platform Publishing]
     G --> H[Analytics Feedback Loop]
-
+```
 
 **Core Components**:
-- **LLM Pipeline**: Qwen for script generation
-- **Render Engine**: Remotion + Piper TTS
-- **Adapter System**: Platform-specific publishing
-- **Identity Engine**: Configurable content profiles
+- **LLM Pipeline**: Qwen for script generation  
+- **Render Engine**: Remotion + Piper TTS  
+- **Adapter System**: Platform-specific publishing  
+- **Identity Engine**: Configurable content profiles  
 
 ---
+
 ## 📱 Platform Support
 
 | Platform        | Status         | Notes                       |
@@ -42,8 +44,8 @@ graph TD
 | TikTok          | Planned        | Requires API access         |
 | LinkedIn        | Research       | Format compatibility check  |
 
-All adapters use a standardized `Content` interface:
-ts
+All platforms use a unified `Content` interface:
+```ts
 interface Content {
   title: string;
   script: string;
@@ -51,14 +53,15 @@ interface Content {
   videoUrl: string;
   metadata: Record<string, any>;
 }
-
+```
 
 ---
+
 ## 👤 Identity Configuration
 
 Define channel characteristics using the `AccountIdentity` interface:
 
-ts
+```ts
 interface AccountIdentity {
   niche: string;
   personality: string;
@@ -67,10 +70,10 @@ interface AccountIdentity {
   topicWhitelist: string[];
   topicBlacklist: string[];
 }
-
+```
 
 **Example**: Tech education channel
-ts
+```ts
 const techEduIdentity: AccountIdentity = {
   niche: "software development",
   personality: "enthusiastic instructor",
@@ -79,14 +82,15 @@ const techEduIdentity: AccountIdentity = {
   topicWhitelist: ["JavaScript", "AI", "DevOps"],
   topicBlacklist: ["politics", "cryptocurrency"]
 };
-
+```
 
 ---
+
 ## 💸 Conversion Engine
 
 When trending topics match products in the registry, DaemonContent generates promotional content:
 
-ts
+```ts
 interface Project {
   id: string;
   name: string;
@@ -94,7 +98,7 @@ interface Project {
   landingPage: string;
   keywords: string[];
 }
-
+```
 
 **Current Projects**:
 | Project   | Description               | URL              |
@@ -104,6 +108,7 @@ interface Project {
 | HireAI    | AI recruitment platform   | (in development) |
 
 ---
+
 ## 🛠️ Technical Stack
 
 | Component    | Technology                 |
@@ -120,9 +125,10 @@ interface Project {
 **Monthly Cost**: $7 (free tier compatible)
 
 ---
+
 ## 📂 Project Structure
 
-
+```
 DaemonContent/
 ├── backend/
 │   ├── app/              ← Core modules
@@ -135,22 +141,23 @@ DaemonContent/
 │   └── outputs/          ← Rendered videos
 ├── client/               ← Dashboard
 │   └── app/              ← Next.js components
-
+```
 
 ---
+
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- [Bun](https://bun.sh) v1.0+
-- Redis (local)
-- MongoDB Atlas (free tier)
-- OpenRouter API key
-- Piper TTS binary
+- [Bun](https://bun.sh) v1.0+  
+- Redis (local)  
+- MongoDB Atlas (free tier)  
+- OpenRouter API key  
+- Piper TTS binary  
 
 ### Setup
 
-bash
+```bash
 # Backend
 cd backend
 cp .env.example .env
@@ -166,11 +173,11 @@ bun run dev
 
 ---
 
-## Configuration
+## 🔧 Configuration
 
 ### Backend Environment
 
-```env
+```
 PORT=8000
 MONGODB_URI=mongodb+srv://...
 REDIS_URL=redis://localhost:6379
@@ -187,24 +194,24 @@ APPROVAL_REQUIRED=true
 
 ---
 
-## Development Roadmap
+## 🧭 Development Roadmap
 
-✅ **Completed**
-- Local rendering pipeline
-- Basic Instagram adapter
-- Core identity system
+✅ **Completed**  
+- Local rendering pipeline  
+- Basic Instagram adapter  
+- Core identity system  
 
-🚀 **In Progress**
-- YouTube Shorts adapter
-- Advanced analytics dashboard
-- Trend detection from multiple sources
+🚀 **In Progress**  
+- YouTube Shorts adapter  
+- Advanced analytics dashboard  
+- Trend detection from multiple sources  
 
 ---
 
-## Related Projects
+## 🔄 Related Projects
 
-- [DaemonDoc](https://daemondoc.online) – AI README automation
-- [PRD](./PRD.md) – Full product requirements document
+- [DaemonDoc](https://daemondoc.online) – AI README automation  
+- [PRD](./PRD.md) – Full product requirements document  
 
 ---
 
