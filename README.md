@@ -1,10 +1,10 @@
-# DaemonContent
+
+# 🤖 DaemonContent
 
 🛠️ **DaemonContent** is an autonomous AI content engine that transforms trending topics into publishable videos across social platforms. It operates as a modular pipeline with configurable identities and conversion-focused strategies.
 
 ---
-
-## Key Features
+## 🌟 Key Features
 
 - **End-to-end automation**: Trend detection → script generation → video rendering → platform publishing
 - **Multi-platform support**: Platform-specific adapters with uniform content objects
@@ -13,10 +13,9 @@
 - **Modular architecture**: Replaceable components (LLM, TTS, renderers)
 
 ---
+## 🏗️ Architecture Overview
 
-## Architecture Overview
-
-```mermaid
+mermaid
 graph TD
     A[Trend Detection] --> B[Script Generation]
     B --> C[Script Evaluation]
@@ -25,7 +24,7 @@ graph TD
     E --> F["Human Approval (optional)"]
     F --> G[Platform Publishing]
     G --> H[Analytics Feedback Loop]
-```
+
 
 **Core Components**:
 - **LLM Pipeline**: Qwen for script generation
@@ -34,8 +33,7 @@ graph TD
 - **Identity Engine**: Configurable content profiles
 
 ---
-
-## Platform Support
+## 📱 Platform Support
 
 | Platform        | Status         | Notes                       |
 |-----------------|----------------|-----------------------------|
@@ -45,7 +43,7 @@ graph TD
 | LinkedIn        | Research       | Format compatibility check  |
 
 All adapters use a standardized `Content` interface:
-```ts
+ts
 interface Content {
   title: string;
   script: string;
@@ -53,15 +51,14 @@ interface Content {
   videoUrl: string;
   metadata: Record<string, any>;
 }
-```
+
 
 ---
-
-## Identity Configuration
+## 👤 Identity Configuration
 
 Define channel characteristics using the `AccountIdentity` interface:
 
-```ts
+ts
 interface AccountIdentity {
   niche: string;
   personality: string;
@@ -70,10 +67,10 @@ interface AccountIdentity {
   topicWhitelist: string[];
   topicBlacklist: string[];
 }
-```
+
 
 **Example**: Tech education channel
-```ts
+ts
 const techEduIdentity: AccountIdentity = {
   niche: "software development",
   personality: "enthusiastic instructor",
@@ -82,15 +79,14 @@ const techEduIdentity: AccountIdentity = {
   topicWhitelist: ["JavaScript", "AI", "DevOps"],
   topicBlacklist: ["politics", "cryptocurrency"]
 };
-```
+
 
 ---
-
-## Conversion Engine
+## 💸 Conversion Engine
 
 When trending topics match products in the registry, DaemonContent generates promotional content:
 
-```ts
+ts
 interface Project {
   id: string;
   name: string;
@@ -98,7 +94,7 @@ interface Project {
   landingPage: string;
   keywords: string[];
 }
-```
+
 
 **Current Projects**:
 | Project   | Description               | URL              |
@@ -108,8 +104,7 @@ interface Project {
 | HireAI    | AI recruitment platform   | (in development) |
 
 ---
-
-## Technical Stack
+## 🛠️ Technical Stack
 
 | Component    | Technology                 |
 |--------------|----------------------------|
@@ -125,10 +120,9 @@ interface Project {
 **Monthly Cost**: $7 (free tier compatible)
 
 ---
+## 📂 Project Structure
 
-## Project Structure
 
-```
 DaemonContent/
 ├── backend/
 │   ├── app/              ← Core modules
@@ -141,11 +135,10 @@ DaemonContent/
 │   └── outputs/          ← Rendered videos
 ├── client/               ← Dashboard
 │   └── app/              ← Next.js components
-```
+
 
 ---
-
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
@@ -157,7 +150,7 @@ DaemonContent/
 
 ### Setup
 
-```bash
+bash
 # Backend
 cd backend
 cp .env.example .env
