@@ -1,16 +1,21 @@
+
 # DaemonContent
 
-Autonomous content engine. Detects trends, generates scripts, renders videos, and publishes across platforms — all on autopilot.
+🛠️ **DaemonContent** is an autonomous, AI‑driven content engine that continuously scans the internet for emerging trends, crafts scripts, generates voice‑overs, renders short videos, and publishes them across multiple platforms without human intervention.
 
-Not tied to a niche. Not tied to a platform. Define your account identity and platform adapters, and the engine handles the rest.
+- **Trend‑to‑video pipeline** – from detection to analytics.
+- **Platform‑agnostic** – works with any social channel via adapters.
+- **Configurable identity** – each account supplies its own niche, tone, and goals.
+- **Conversion‑focused** – can drive traffic to products listed in the project registry.
 
-Part of the Daemon family — [DaemonDoc](https://daemondoc.online) automates README writing. DaemonContent automates content creation.
+Part of the Daemon family – the companion project **[DaemonDoc](https://daemondoc.online)** writes READMEs for you, while DaemonContent creates the content.
 
 ---
+## How it works 🚀
 
-## How it works
+The engine follows a deterministic, eight‑step pipeline that can be visualised as a flowchart:
 
-```
+
 Trend detected (filtered by account niche)
 ↓
 Qwen generates script (voice + angle injected)
@@ -26,24 +31,28 @@ Human approval queue (togglable)
 Platform adapter publishes
 ↓
 Analytics stored → feeds back into generation prompt
-```
+
+
+Each stage is implemented as an isolated module, making it easy to replace or extend any component (e.g., swapping Qwen for another LLM). The optional **human approval queue** can be enabled for higher‑risk channels, otherwise the pipeline runs fully autonomously.
 
 ---
+## Content modes 🎯
 
-## Content modes
+DaemonContent operates in two complementary modes that together balance audience growth and direct conversions.
 
-**Audience mode (95%)** — niche-relevant content that builds followers at volume.
+**Audience mode (≈95 %)** – Generates high‑volume, niche‑relevant posts designed to attract followers and increase reach.
 
-**Conversion mode (5%)** — when a trend maps to a project in the registry, generates content that drives viewers to it directly.
+**Conversion mode (≈5 %)** – When a detected trend matches a product in the **Project registry**, the engine creates a targeted post that drives viewers to the landing page, boosting sign‑ups or sales.
 
-```
+
 95 audience posts → reach + followers
-5 conversion posts → landing page visits → signups
-```
+5 conversion posts → landing page visits → sign‑ups
+
+
+Both modes share the same underlying pipeline; the only difference is the final call‑to‑action and the analytics tag attached to the content.
 
 ---
-
-## Platform adapters
+## Platform adapters 📦
 
 | Adapter         | Status        |
 | --------------- | ------------- |
@@ -53,29 +62,45 @@ Analytics stored → feeds back into generation prompt
 | X / Twitter     | planned       |
 | LinkedIn        | planned       |
 
-Each adapter consumes the same `Content` object. Adding a new platform means writing a new adapter — the engine doesn't change.
+All adapters consume a uniform `Content` object (`title`, `script`, `audioUrl`, `videoUrl`, `metadata`). Adding support for a new platform only requires implementing the adapter interface – the core engine remains untouched.
+
+**How to add a new adapter**
+1. Create a file that implements `PlatformAdapter`.
+2. Map the `Content` fields to the platform’s API payload.
+3. Register the adapter in `adapters/index.ts`.
+4. Update the `platforms` configuration in your `AccountIdentity` if needed.
 
 ---
+## Account identity 👤
 
-## Account identity
+The engine is niche‑agnostic; each account supplies an identity configuration that guides content generation.
 
-The engine is niche-agnostic. Each account defines its own identity config:
-
-```ts
+ts
 interface AccountIdentity {
-  niche: string;
-  personality: string;
-  targetAudience: string;
-  contentPromise: string;
-  topicWhitelist: string[];
-  topicBlacklist: string[];
+  niche: string;               // e.g. "tech education"
+  personality: string;         // tone of voice, e.g. "friendly mentor"
+  targetAudience: string;      // description of the ideal viewer
+  contentPromise: string;      // what the audience can expect from each post
+  topicWhitelist: string[];    // topics the account is allowed to cover
+  topicBlacklist: string[];    // topics to avoid
 }
-```
 
-The first account runs tech education content. Future accounts can run any niche — same engine, different config.
+
+Example for a tech‑education channel:
+ts
+const techEduIdentity: AccountIdentity = {
+  niche: "software development",
+  personality: "enthusiastic instructor",
+  targetAudience: "junior developers looking to level up",
+  contentPromise: "short, actionable tutorials",
+  topicWhitelist: ["JavaScript", "TypeScript", "AI", "DevOps"],
+  topicBlacklist: ["politics", "cryptocurrency"]
+};
+
+
+By swapping out this configuration you can launch a completely different channel (e.g., fitness, cooking) without changing any engine code.
 
 ---
-
 ## Project registry
 
 Defines products available for conversion mode. Engine matches trends to projects automatically.
