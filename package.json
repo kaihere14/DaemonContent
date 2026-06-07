@@ -1,0 +1,33 @@
+{
+  "name": "daemoncontent",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.7",
+    "prettier": "^3.8.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "scripts": {
+    "prepare": "husky",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "lint-staged": {
+    "backend/**/*.{ts,js}": [
+      "prettier --write",
+      "./backend/node_modules/.bin/eslint --config ./backend/eslint.config.js --fix"
+    ],
+    "client/**/*.{ts,tsx,js,jsx,mjs}": [
+      "prettier --write",
+      "./client/node_modules/.bin/eslint --config ./client/eslint.config.mjs --fix"
+    ],
+    "**/*.{json,md,css}": [
+      "prettier --write"
+    ]
+  }
+}
