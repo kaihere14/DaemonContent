@@ -1,65 +1,65 @@
-# 🤖 DaemonContent
+# DaemonContent
 
-🛠️ **DaemonContent** is an autonomous AI content engine that transforms trending topics into publishable videos across social platforms. It operates as a modular pipeline with configurable identities and conversion-focused strategies.
+Autonomous content engine. Detects trends, generates scripts, renders videos, and publishes across platforms — all on autopilot.
 
----
+Not tied to a niche. Not tied to a platform. Define your account identity and platform adapters, and the engine handles the rest.
 
-## 🌟 Features
-
-- **End-to-end automation**: Trend detection → script generation → video rendering → platform publishing  
-- **Multi-platform support**: Platform-specific adapters with uniform content objects  
-- **Configurable identities**: Define niche, tone, and audience for each channel  
-- **Conversion optimization**: 5% of content promotes products from the project registry  
-- **Modular architecture**: Replaceable components (LLM, TTS, renderers)  
+Part of the Daemon family — [DaemonDoc](https://daemondoc.online) automates README writing. DaemonContent automates content creation.
 
 ---
 
-## 🧠 Architecture
+## How it works
 
-```mermaid
-graph TD
-    A[Trend Detection] --> B[Script Generation]
-    B --> C[Script Evaluation]
-    C --> D[Voiceover Generation]
-    D --> E[Video Rendering]
-    E --> F["Human Approval (optional)"]
-    F --> G[Platform Publishing]
-    G --> H[Analytics Feedback Loop]
 ```
-
-**Core Components**:
-- **LLM Pipeline**: Qwen for script generation  
-- **Render Engine**: Remotion + Piper TTS  
-- **Adapter System**: Platform-specific publishing  
-- **Identity Engine**: Configurable content profiles  
-
----
-
-## 📱 Platform Support
-
-| Platform        | Status         | Notes                       |
-|-----------------|----------------|-----------------------------|
-| Instagram Reels | v1 - Active    | Basic publishing support    |
-| YouTube Shorts  | In Development | API integration pending     |
-| TikTok          | Planned        | Requires API access         |
-| LinkedIn        | Research       | Format compatibility check  |
-
-All platforms use a unified `Content` interface:
-```ts
-interface Content {
-  title: string;
-  script: string;
-  audioUrl: string;
-  videoUrl: string;
-  metadata: Record<string, any>;
-}
+Trend detected (filtered by account niche)
+↓
+Qwen generates script (voice + angle injected)
+↓
+Evaluator scores script — rejects weak content before render
+↓
+Piper TTS generates voiceover
+↓
+Renderer builds video (background + voiceover + animated captions)
+↓
+Human approval queue (togglable)
+↓
+Platform adapter publishes
+↓
+Analytics stored → feeds back into generation prompt
 ```
 
 ---
 
-## 👤 Identity Configuration
+## Content modes
 
-Define channel characteristics using the `AccountIdentity` interface:
+**Audience mode (95%)** — niche-relevant content that builds followers at volume.
+
+**Conversion mode (5%)** — when a trend maps to a project in the registry, generates content that drives viewers to it directly.
+
+```
+95 audience posts → reach + followers
+5 conversion posts → landing page visits → signups
+```
+
+---
+
+## Platform adapters
+
+| Adapter         | Status        |
+| --------------- | ------------- |
+| Instagram Reels | v1 — building |
+| YouTube Shorts  | planned       |
+| TikTok          | planned       |
+| X / Twitter     | planned       |
+| LinkedIn        | planned       |
+
+Each adapter consumes the same `Content` object. Adding a new platform means writing a new adapter — the engine doesn't change.
+
+---
+
+## Account identity
+
+The engine is niche-agnostic. Each account defines its own identity config:
 
 ```ts
 interface AccountIdentity {
@@ -72,99 +72,100 @@ interface AccountIdentity {
 }
 ```
 
-**Example**: Tech education channel
-```ts
-const techEduIdentity: AccountIdentity = {
-  niche: "software development",
-  personality: "enthusiastic instructor",
-  targetAudience: "junior developers",
-  contentPromise: "actionable coding tutorials",
-  topicWhitelist: ["JavaScript", "AI", "DevOps"],
-  topicBlacklist: ["politics", "cryptocurrency"]
-};
-```
+The first account runs tech education content. Future accounts can run any niche — same engine, different config.
 
 ---
 
-## 💸 Conversion Engine
+## Project registry
 
-When trending topics match products in the registry, DaemonContent generates promotional content:
+Defines products available for conversion mode. Engine matches trends to projects automatically.
 
 ```ts
 interface Project {
   id: string;
   name: string;
   description: string;
+  targetAudience: string;
   landingPage: string;
   keywords: string[];
 }
 ```
 
-**Current Projects**:
-| Project   | Description               | URL              |
-|-----------|---------------------------|------------------|
-| DaemonDoc | README automation         | daemondoc.online |
-| NovaDrive | AI-enhanced cloud storage | (coming soon)    |
-| HireAI    | AI recruitment platform   | (in development) |
+| Project   | Description                  | URL              |
+| --------- | ---------------------------- | ---------------- |
+| DaemonDoc | AI-powered README automation | daemondoc.online |
+| NovaDrive | Cloud storage with AI        | —                |
+| HireAI    | AI hiring pipeline           | —                |
 
 ---
 
-## 🛠️ Technical Stack
+## Stack
 
-| Component    | Technology                 |
-|--------------|----------------------------|
-| **LLM**      | Qwen via OpenRouter (free) |
-| **TTS**      | Piper (local)              |
-| **Video**    | Remotion                   |
-| **Queue**    | BullMQ + Redis             |
-| **Database** | MongoDB Atlas              |
-| **Backend**  | Bun + Express              |
-| **Dashboard**| Next.js                    |
-| **Hosting**  | Render                     |
+| Layer     | Tool                       |
+| --------- | -------------------------- |
+| LLM       | Qwen via OpenRouter (free) |
+| TTS       | Piper (local, no quota)    |
+| Video     | Remotion                   |
+| Queue     | BullMQ + Redis             |
+| Database  | MongoDB Atlas              |
+| Backend   | Bun + Express              |
+| Dashboard | Next.js                    |
+| Hosting   | Render                     |
 
-**Monthly Cost**: $7 (free tier compatible)
+**Cost: $7/mo**
 
 ---
 
-## 📂 Project Structure
+## Project structure
 
 ```
 DaemonContent/
 ├── backend/
-│   ├── app/              ← Core modules
-│   │   ├── agent/        ← Orchestration
-│   │   ├── evaluator/    ← Script scoring
-│   │   ├── renderer/     ← Video generation
-│   │   ├── poster/       ← Platform adapters
-│   │   └── config/       ← Identity + registry
-│   ├── clips/            ← Background footage
-│   └── outputs/          ← Rendered videos
-├── client/               ← Dashboard
-│   └── app/              ← Next.js components
+│   ├── app/
+│   │   ├── agent/        ← orchestration loop
+│   │   ├── api/          ← REST endpoints for dashboard
+│   │   ├── config/       ← account identity + project registry
+│   │   ├── evaluator/    ← script scoring before render
+│   │   ├── poster/       ← platform adapters
+│   │   ├── renderer/     ← Remotion + Piper + caption timing
+│   │   ├── types/        ← Content, Project, AccountIdentity
+│   │   ├── workers/      ← BullMQ job processors
+│   │   └── app.ts
+│   ├── clips/            ← background footage pool
+│   ├── outputs/          ← rendered videos before publish
+│   └── server.ts
+│
+└── client/
+    ├── app/              ← Next.js dashboard
+    └── types/
 ```
 
 ---
 
-## 🚀 Getting Started
+## Getting started
 
 ### Prerequisites
 
-- [Bun](https://bun.sh) v1.0+  
-- Redis (local)  
-- MongoDB Atlas (free tier)  
-- OpenRouter API key  
-- Piper TTS binary  
+- [Bun](https://bun.sh) v1.0+
+- Redis running locally
+- MongoDB Atlas account (free tier)
+- OpenRouter account (free)
+- Piper TTS binary ([releases](https://github.com/rhasspy/piper/releases))
+- Platform developer account (Meta, TikTok, etc.)
 
-### Setup
+### Backend
 
 ```bash
-# Backend
 cd backend
 cp .env.example .env
+# fill in .env
 bun install
 bun run server.ts
+```
 
-# Dashboard
+### Client
+
+```bash
 cd client
 cp .env.example .env
 bun install
@@ -173,47 +174,60 @@ bun run dev
 
 ---
 
-## 🔧 Configuration
+## Environment variables
 
-### Backend Environment
+### backend/.env
 
-```
+```env
 PORT=8000
-MONGODB_URI=mongodb+srv://...
-REDIS_URL=redis://localhost:6379
 
-OPENROUTER_API_KEY=...
+MONGODB_URI=
+REDIS_URL=
+
+OPENROUTER_API_KEY=
 OPENROUTER_MODEL=qwen/qwen3-235b-a22b:free
+
+# Platform credentials (add per adapter)
+META_ACCESS_TOKEN=
+META_INSTAGRAM_ACCOUNT_ID=
 
 PIPER_BINARY_PATH=./bin/piper
 PIPER_MODEL_PATH=./models/en_US-lessac-medium.onnx
 
+CLIPS_DIR=./clips
+OUTPUTS_DIR=./outputs
+
 POSTS_PER_DAY=4
+POST_TIMING_VARIANCE_MINUTES=30
 APPROVAL_REQUIRED=true
+```
+
+### client/.env
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8000
 ```
 
 ---
 
-## 🧭 Development Roadmap
+## Build phases
 
-✅ **Completed**  
-- Local rendering pipeline  
-- Basic Instagram adapter  
-- Core identity system  
-
-🚀 **In Progress**  
-- YouTube Shorts adapter  
-- Advanced analytics dashboard  
-- Trend detection from multiple sources  
-
----
-
-## 🔄 Related Projects
-
-- [DaemonDoc](https://daemondoc.online) – AI README automation  
-- [PRD](./PRD.md) – Full product requirements document  
+- [x] **Phase 0** — Niche validation (manual posts before any code)
+- [ ] **Phase 1** — Local render: topic → script → voiceover → video file
+- [ ] **Phase 2** — Publishing: first platform adapter + MongoDB storage
+- [ ] **Phase 3** — Scheduling: BullMQ, approval queue
+- [ ] **Phase 4** — Prompt optimization: tune on first 50 posts
+- [ ] **Phase 5** — Topic detection: Google Trends, Reddit, HN, X
+- [ ] **Phase 6** — Analytics + feedback loop + dashboard
+- [ ] **Phase 7** — Additional platform adapters + multi-account support
 
 ---
 
-Built by [Arman](https://armandev.space)  
-Part of the [Daemon Family](https://daemondoc.online) of AI automation tools
+## Related
+
+- [DaemonDoc](https://daemondoc.online) — AI README automation
+- [PRD](./PRD.md) — full product requirements document
+
+---
+
+Built by [Arman](https://armandev.space)
