@@ -4,6 +4,9 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "dev": "bun run server.ts",
+    "build": "bun build server.ts --outdir dist --target bun",
+    "start": "bun run dist/server.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
@@ -11,6 +14,7 @@
   },
   "devDependencies": {
     "@types/bun": "latest",
+    "@types/express": "^5.0.6",
     "@typescript-eslint/eslint-plugin": "^8.60.1",
     "@typescript-eslint/parser": "^8.60.1",
     "eslint": "^10.4.1",
@@ -18,5 +22,8 @@
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
   }
 }

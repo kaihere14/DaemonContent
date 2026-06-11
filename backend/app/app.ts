@@ -1,13 +1,14 @@
+import express, { type Application } from "express";
 
-import express from "express";
+export const getApp = async (): Promise<Application> => {
+  const app = express();
 
-const app = express();
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+  app.get("/", (req, res) => {
+    res.json({ message: "Server is running" });
+  });
 
-app.get("/", (req, res) => {
- res.json({ message: "Server is running" });
-});
-
-export default app;
+  return app;
+};

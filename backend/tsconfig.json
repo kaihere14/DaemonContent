@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     // Environment setup & latest features
+    "outDir": "./dist",
+    "rootDir": "./",
     "lib": ["ESNext"],
     "target": "ESNext",
     "module": "Preserve",
