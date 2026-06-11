@@ -1,14 +1,8 @@
-import express, { type Application } from "express";
+import { agentRoutes } from "./agent/agent-routes";
 
-export const getApp = async (): Promise<Application> => {
-  const app = express();
-
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
-
-  app.get("/", (req, res) => {
-    res.json({ message: "Server is running" });
-  });
-
-  return app;
+export const routes = {
+  "/": {
+    GET: () => Response.json({ message: "Server is running" }),
+  },
+  ...agentRoutes,
 };
