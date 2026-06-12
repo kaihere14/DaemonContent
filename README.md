@@ -1,3 +1,4 @@
+
 # DaemonContent
 
 Autonomous content engine. Detects trends, generates scripts, renders videos, and publishes across platforms — all on autopilot.
@@ -99,7 +100,7 @@ interface Project {
 
 ---
 
-## Stack
+## 🛠️ Stack
 
 | Layer     | Tool                       |
 | --------- | -------------------------- |
@@ -115,7 +116,6 @@ interface Project {
 **Cost: $7/mo**
 
 ---
-
 ## Project structure
 
 ```
@@ -142,7 +142,7 @@ DaemonContent/
 
 ---
 
-## Getting started
+## 🚀 Getting started
 
 ### Prerequisites
 
@@ -155,9 +155,12 @@ DaemonContent/
 
 ### Backend
 
-```bash
+bash
 cd backend
 cp .env.example .env
+bun install
+bun dev
+
 # fill in .env
 bun install
 bun run server.ts
@@ -210,7 +213,7 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 
 ---
 
-## Build phases
+## 📅 Build phases
 
 - [x] **Phase 0** — Niche validation (manual posts before any code)
 - [ ] **Phase 1** — Local render: topic → script → voiceover → video file
@@ -222,7 +225,6 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 - [ ] **Phase 7** — Additional platform adapters + multi-account support
 
 ---
-
 ## Related
 
 - [DaemonDoc](https://daemondoc.online) — AI README automation
