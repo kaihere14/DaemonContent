@@ -11,6 +11,42 @@ bun run server.ts
 
 Starts on port `3001` by default. Set `PORT` in `.env` to change it.
 
+## Usage
+
+Check that the server is running:
+
+```bash
+curl "http://localhost:3001/"
+```
+
+Generate a reel by sending a JSON body with a non-empty `topic`:
+
+```bash
+curl -X POST "http://localhost:3001/agent/script-generation" \
+  -H "Content-Type: application/json" \
+  -d '{"topic":"Why developers should learn system design"}'
+```
+
+All request fields:
+
+```json
+{
+  "topic": "Why developers should learn system design",
+  "length": "60 seconds",
+  "language": "English",
+  "tone": "direct and opinionated",
+  "style": "conversational",
+  "format": "plain text",
+  "purpose": "educate developers"
+}
+```
+
+Only `topic` is required. The response includes the generated script, its
+evaluation, word-level captions, and the path to the rendered video.
+
+Do not send an empty POST request. The endpoint parses the request body as JSON,
+so a request without `-d` fails with `Unexpected end of JSON input`.
+
 ## Environment variables
 
 ```env
