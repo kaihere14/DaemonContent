@@ -10,7 +10,7 @@
 
 ---
 
-## Phase 1 — Local Render 🟡 In Progress
+## Phase 1 — Local Render
 
 > Goal: topic → script → voiceover → captions → `.mp4` on disk. No infrastructure.
 
@@ -19,15 +19,15 @@
 - [x] ElevenLabs TTS (`.mp3` output)
 - [x] Caption timing (word-level timestamps via AssemblyAI)
 - [x] Gaming clips downloaded in `backend/clips/`
-- [ ] Remotion renderer (`ReelComposition.tsx`, `Root.tsx`, `render.ts`)
-- [ ] Wire `renderReel()` into the controller
-- [ ] Test full pipeline end-to-end: topic → `.mp4` on disk
+- [x] Remotion renderer (`ReelComposition.tsx`, `Root.tsx`, `render.ts`)
+- [x] Wire `renderReel()` into the controller
+- [x] Test full pipeline end-to-end: topic → `.mp4` on disk
 
 **Success metric:** One reel on your laptop you'd actually post.
 
 ---
 
-## Phase 2 — Publishing
+## Phase 2 — Publishing 🟡 In Progress
 
 > Goal: topic string in → reel live on Instagram → post ID in MongoDB.
 
