@@ -10,6 +10,7 @@ export interface Iscript_agent {
 
 export interface Iscript_agent_response {
   script: string;
+  caption: string;
   score: number;
   reason: string;
 }

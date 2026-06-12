@@ -6,6 +6,7 @@
       "name": "backend",
       "dependencies": {
         "@elevenlabs/elevenlabs-js": "^2.52.0",
+        "@openrouter/sdk": "^0.12.79",
         "@remotion/bundler": "^4.0.475",
         "@remotion/renderer": "^4.0.475",
         "react": "^19.2.7",
@@ -140,6 +141,8 @@
     "@module-federation/webpack-bundler-runtime": ["@module-federation/webpack-bundler-runtime@0.22.0", "", { "dependencies": { "@module-federation/runtime": "0.22.0", "@module-federation/sdk": "0.22.0" } }, "sha512-aM8gCqXu+/4wBmJtVeMeeMN5guw3chf+2i6HajKtQv7SJfxV/f4IyNQJUeUQu9HfiAZHjqtMV5Lvq/Lvh8LdyA=="],
 
     "@napi-rs/wasm-runtime": ["@napi-rs/wasm-runtime@1.0.7", "", { "dependencies": { "@emnapi/core": "^1.5.0", "@emnapi/runtime": "^1.5.0", "@tybys/wasm-util": "^0.10.1" } }, "sha512-SeDnOO0Tk7Okiq6DbXmmBODgOAb9dp9gjlphokTUxmt8U3liIP1ZsozBahH69j/RJv+Rfs6IwUKHTgQYJ/HBAw=="],
+
+    "@openrouter/sdk": ["@openrouter/sdk@0.12.79", "", { "dependencies": { "zod": "^3.25.0 || ^4.0.0" } }, "sha512-0ZpwtnuHh3/B1piW9kHCUIQy6PAsaK/vjFdZuHxmCdAenCyUNsLA2mFpmfHNWRNb+bOO3yBc4IALa264UyzmBA=="],
 
     "@remotion/bundler": ["@remotion/bundler@4.0.475", "", { "dependencies": { "@remotion/media-parser": "4.0.475", "@remotion/studio": "4.0.475", "@remotion/studio-shared": "4.0.475", "@remotion/timeline-utils": "4.0.475", "@rspack/core": "1.7.11", "@rspack/plugin-react-refresh": "1.6.1", "css-loader": "7.1.4", "esbuild": "0.28.0", "react-refresh": "0.18.0", "remotion": "4.0.475", "style-loader": "4.0.0", "webpack": "5.105.0" }, "peerDependencies": { "react": ">=16.8.0", "react-dom": ">=16.8.0" } }, "sha512-vPXB4aUbqxoou2yjwJBPfHQ/1M1LyIEsCzc1AhPJwThkwP8tN9JI0xx3CYnKFwRErVE4VH4FYDwfrnHh44q+iQ=="],
 

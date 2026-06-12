@@ -44,6 +44,31 @@ ${feedback ? `\n## Fix from previous attempt\n${feedback}\n` : ""}
 Return only the script. No title, no label, no explanation.
 `;
 
+const caption_prompt = (script: string) => `
+Write a short Instagram caption for this reel.
+
+## Voiceover script
+"${script}"
+
+## Rules
+- 1–2 sentences describing what the video is about (not a quote from it)
+- Then exactly 5 relevant hashtags on a new line
+- No emojis, no CTAs, no markdown
+
+## Output
+Return only the caption. No label, no explanation.
+`;
+
+async function generateCaption(script: string): Promise<string> {
+  const result = await openRouterClient.chat.send({
+    chatRequest: {
+      model: "nex-agi/nex-n2-pro:free",
+      messages: [{ role: "user", content: caption_prompt(script) }],
+    },
+  });
+  return result.choices[0]?.message.content?.trim() ?? "";
+}
+
 export const scriptAgentService = async (data: Iscript_agent): Promise<Iscript_agent_response> => {
   let lastScript = "";
   let lastEval: IevaluationResult | null = null;
@@ -61,16 +86,17 @@ export const scriptAgentService = async (data: Iscript_agent): Promise<Iscript_a
     lastScript = result.choices[0]?.message.content ?? "";
     lastEval = await evaluateScript(lastScript);
 
-    console.log(`Attempt ${attempt} scores:`, lastEval.scores, `| passed: ${lastEval.passed}`);
+    console.log(`[Agent] Attempt ${attempt} avg=${lastEval.average} passed=${lastEval.passed}`);
 
-    if (lastEval.passed) {
-      return { script: lastScript, score: lastEval.average, reason: lastEval.feedback };
-    }
+    if (lastEval.passed) break;
   }
+
+  const caption = await generateCaption(lastScript);
 
   return {
     script: lastScript,
+    caption,
     score: lastEval?.average ?? 0,
-    reason: `Max retries reached. Last issue: ${lastEval?.feedback ?? "unknown"}`,
+    reason: lastEval?.feedback ?? "unknown",
   };
 };
