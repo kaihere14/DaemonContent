@@ -100,3 +100,13 @@ export const scriptAgentService = async (data: Iscript_agent): Promise<Iscript_a
     reason: lastEval?.feedback ?? "unknown",
   };
 };
+
+export const generateNewTopic = async (prompt: string): Promise<string> => {
+  const result = await openRouterClient.chat.send({
+    chatRequest: {
+      model: "nex-agi/nex-n2-pro:free",
+      messages: [{ role: "user", content: prompt }],
+    },
+  });
+  return result.choices[0]?.message.content ?? "";
+};

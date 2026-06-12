@@ -9,6 +9,8 @@ export interface Iscript_agent {
 }
 
 export interface Iscript_agent_response {
+  message?: string;
+  postId?: string;
   script: string;
   caption: string;
   score: number;

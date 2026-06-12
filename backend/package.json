@@ -29,6 +29,7 @@
     "@openrouter/sdk": "^0.12.79",
     "@remotion/bundler": "^4.0.475",
     "@remotion/renderer": "^4.0.475",
+    "mongoose": "^9.7.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "remotion": "^4.0.475"

@@ -46,6 +46,25 @@ async function getBundle(): Promise<string> {
   return bundleCache;
 }
 
+async function getClipDurationFrames(clipPath: string, fps: number): Promise<number> {
+  const proc = Bun.spawn(
+    [
+      "ffprobe",
+      "-v",
+      "error",
+      "-show_entries",
+      "format=duration",
+      "-of",
+      "default=noprint_wrappers=1:nokey=1",
+      clipPath,
+    ],
+    { stdout: "pipe", stderr: "pipe" }
+  );
+  const text = await new Response(proc.stdout).text();
+  const seconds = parseFloat(text.trim());
+  return isNaN(seconds) ? 0 : Math.floor(seconds * fps);
+}
+
 export async function renderReel(input: RenderReelInput, outputPath: string): Promise<string> {
   const { audioPath, captions, clipPath } = input;
 
@@ -53,7 +72,10 @@ export async function renderReel(input: RenderReelInput, outputPath: string): Pr
   const durationMs = lastCaption?.end ?? 3000;
   const fps = 30;
   const durationInFrames = Math.ceil((durationMs / 1000) * fps);
-  const clipStartFrame = Math.floor(Math.random() * 300);
+
+  const clipTotalFrames = await getClipDurationFrames(clipPath, fps);
+  const maxStart = Math.max(0, clipTotalFrames - durationInFrames);
+  const clipStartFrame = Math.floor(Math.random() * maxStart);
 
   const serverUrl = getFileServerUrl();
 
