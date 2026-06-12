@@ -1,10 +1,8 @@
-import http from "http";
-import { getApp } from "./app/app";
+import { routes } from "./app/app";
 
-const PORT = process.env.PORT || 3000;
-
-const server = http.createServer(await getApp());
-
-server.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+const server = Bun.serve({
+  routes,
+  port: process.env.PORT ?? 3001,
 });
+
+console.log(`Server running on http://localhost:${server.port}`);

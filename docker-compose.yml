@@ -1,0 +1,20 @@
+services:
+  piper-tts:
+    image: linuxserver/piper:latest
+    container_name: piper-tts
+    restart: unless-stopped
+    ports:
+      - "10200:10200"
+    volumes:
+      - piper-voices:/config
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+      - PIPER_VOICE=en_US-lessac-medium
+      - PIPER_LENGTH_SCALE=1.0
+      - PIPER_NOISE_SCALE=0.667
+      - PIPER_NOISE_W=0.8
+
+volumes:
+  piper-voices:

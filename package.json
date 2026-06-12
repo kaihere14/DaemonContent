@@ -29,5 +29,9 @@
     "**/*.{json,md,css}": [
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "@openrouter/sdk": "^0.12.79",
+    "install": "^0.13.0"
   }
 }
