@@ -2,15 +2,10 @@ import type { Iscript_agent, Iscript_agent_response } from "../types/agent-types
 import { OpenRouter } from "@openrouter/sdk";
 import { evaluateScript } from "../evaluator/evaluator-service";
 import type { IevaluationResult } from "../evaluator/evaluator-types";
-import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
 
 const openRouterClient = new OpenRouter({
   apiKey: process.env.OPEN_ROUTER_KEY,
   appTitle: "daemoncontent.online",
-});
-
-const elevenlabs = new ElevenLabsClient({
-  apiKey: process.env.ELEVENLABS_API_KEY,
 });
 
 const MAX_RETRIES = 3;
@@ -48,21 +43,6 @@ ${feedback ? `\n## Fix from previous attempt\n${feedback}\n` : ""}
 ## Output
 Return only the script. No title, no label, no explanation.
 `;
-
-export const synthesize = async (text: string, outputPath: string): Promise<void> => {
-  const audio = await elevenlabs.textToSpeech.convert("pNInz6obpgDQGcFmaJgB", {
-    text,
-    modelId: "eleven_multilingual_v2",
-    outputFormat: "mp3_44100_128",
-  });
-
-  const chunks: Uint8Array[] = [];
-  for await (const chunk of audio) {
-    chunks.push(chunk);
-  }
-  const buffer = Buffer.concat(chunks);
-  await Bun.write(outputPath, buffer);
-};
 
 export const scriptAgentService = async (data: Iscript_agent): Promise<Iscript_agent_response> => {
   let lastScript = "";
