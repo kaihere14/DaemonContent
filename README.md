@@ -216,7 +216,7 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 ## 📅 Build phases
 
 - [x] **Phase 0** — Niche validation (manual posts before any code)
-- [ ] **Phase 1** — Local render: topic → script → voiceover → video file
+- [ ] **Phase 1** — Local render: topic → script → voiceover → video file (🟡 In Progress)
 - [ ] **Phase 2** — Publishing: first platform adapter + MongoDB storage
 - [ ] **Phase 3** — Scheduling: BullMQ, approval queue
 - [ ] **Phase 4** — Prompt optimization: tune on first 50 posts
