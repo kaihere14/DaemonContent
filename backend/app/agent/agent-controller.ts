@@ -49,6 +49,24 @@ export const scriptAgentController = async (
   const final_data = await scriptAgentService(data);
   console.log(`[Agent] Script approved (score=${final_data.score})`);
 
+  const audioPath = path.join(OUTPUTS_DIR, `${Date.now()}.mp3`);
+  console.log("[Speech] Synthesizing audio...");
+  await synthesize(final_data.script, audioPath);
+
+  const captions = await getWordTimestamps(audioPath);
+  console.log(`[Caption] Got ${captions.length} word timestamps`);
+
+  const clipPath = getRandomClipPath();
+  const videoPath = path.join(OUTPUTS_DIR, `${Date.now()}.mp4`);
+
+  console.log("[Render] Rendering reel...");
+  await renderReel({ audioPath, captions, clipPath }, videoPath);
+
+  const postId = await publishReel(videoPath, final_data.caption);
+  console.log(`[Instagram] Published reel: ${postId}`);
+
+  console.log(`[DB] Saving completed idea`);
+
   const completedIdea = await CompletedIdea.create({
     topic: data.topic,
     script: final_data.script,
@@ -66,21 +84,7 @@ export const scriptAgentController = async (
   });
   console.log(`[DB] Saved completed idea: ${completedIdea._id}`);
 
-  const audioPath = path.join(OUTPUTS_DIR, `${Date.now()}.mp3`);
-  console.log("[Speech] Synthesizing audio...");
-  await synthesize(final_data.script, audioPath);
-
-  const captions = await getWordTimestamps(audioPath);
-  console.log(`[Caption] Got ${captions.length} word timestamps`);
-
-  const clipPath = getRandomClipPath();
-  const videoPath = path.join(OUTPUTS_DIR, `${Date.now()}.mp4`);
-
-  console.log("[Render] Rendering reel...");
-  await renderReel({ audioPath, captions, clipPath }, videoPath);
-
-  const postId = await publishReel(videoPath, final_data.caption);
-  console.log(`[Instagram] Published reel: ${postId}`);
+  console.log(`[DB] Saving Reel Id`);
 
   await Reel.create({
     instagramMediaId: postId,
