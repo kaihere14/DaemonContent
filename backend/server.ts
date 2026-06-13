@@ -1,7 +1,9 @@
 import { routes } from "./app/app";
 import { connectDB } from "./app/utils/db/connectDB";
+import { seedPromptConfigs } from "./app/utils/db/seed-prompts";
 
 await connectDB();
+await seedPromptConfigs();
 
 const server = Bun.serve({
   routes,

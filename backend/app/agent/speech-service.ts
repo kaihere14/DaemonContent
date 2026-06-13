@@ -1,24 +1,30 @@
-import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
-
-const elevenlabs = new ElevenLabsClient({
-  apiKey: process.env.ELEVENLABS_API_KEY,
-});
-
-const VOICE_ID = "pNInz6obpgDQGcFmaJgB";
+const UNREAL_SPEECH_URL = "https://api.v8.unrealspeech.com/speech";
+const VOICE_ID = "am_adam";
 
 export const synthesize = async (text: string, outputPath: string): Promise<string> => {
-  const audio = await elevenlabs.textToSpeech.convert(VOICE_ID, {
-    text,
-    modelId: "eleven_multilingual_v2",
-    outputFormat: "mp3_44100_128",
+  const res = await fetch(UNREAL_SPEECH_URL, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.UNREAL_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      Text: text,
+      VoiceId: VOICE_ID,
+      Bitrate: "192k",
+      Speed: "0",
+      Pitch: "1",
+      TimestampType: "sentence",
+    }),
   });
 
-  const chunks: Uint8Array[] = [];
-  for await (const chunk of audio) {
-    chunks.push(chunk);
+  if (!res.ok) {
+    throw new Error(`Unreal Speech error: ${res.status} ${await res.text()}`);
   }
-  const buffer = Buffer.concat(chunks);
-  await Bun.write(outputPath, buffer);
+
+  const data = (await res.json()) as { OutputUri: string };
+  const audioRes = await fetch(data.OutputUri);
+  await Bun.write(outputPath, await audioRes.arrayBuffer());
 
   return outputPath;
 };

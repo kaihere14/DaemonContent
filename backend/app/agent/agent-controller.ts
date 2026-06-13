@@ -27,7 +27,7 @@ export const aiDataCall = async (req: Request): Promise<Response> => {
   console.log("[DB] Fetching completed ideas...");
   const completedTopics = await CompletedIdea.find();
   console.log(`[DB] Fetched ${completedTopics.length} completed ideas`);
-  const prompt = aiDataCallPrompt(completedTopics);
+  const prompt = await aiDataCallPrompt(completedTopics);
   console.log("[Agent] Generated prompt for new topic");
   const result = (await generateNewTopic(prompt)) as string;
   const parsedResult: Iscript_agent = JSON.parse(result);

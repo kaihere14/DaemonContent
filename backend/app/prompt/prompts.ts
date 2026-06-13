@@ -1,14 +1,13 @@
 import type { Iscript_agent } from "../types/agent-types";
 import type { ICompletedIdea } from "../utils/models/completed-idea";
+import { getScriptGenerationBase, getTopicGenerationBase } from "./prompt-service";
 
-export const scriptAgentPrompt = (config: Iscript_agent, feedback?: string) => `
-You are a script writer for a tech education Instagram Reels account.
-
-## Account Identity
-- Niche: Tech education — surviving and growing in the AI era
-- Audience: Developers, CS students, indie hackers, tech builders
-- Voice: Direct, slightly opinionated, no fluff, one concept per reel
-- Format: Gaming background + AI voiceover + animated word-by-word captions
+export const scriptAgentPrompt = async (
+  config: Iscript_agent,
+  feedback?: string
+): Promise<string> => {
+  const base = await getScriptGenerationBase();
+  return `${base}
 
 ## Task
 Write a voiceover script for a reel about: "${config.topic}"
@@ -24,16 +23,8 @@ ${feedback ? `\n## Fix from previous attempt\n${feedback}\n` : ""}
 - Style: ${config.style ?? "conversational, like talking to a fellow dev"}
 - Format: ${config.format ?? "plain text only — no markdown, no bullets, no headers"}
 - Purpose: ${config.purpose ?? "educate and build audience"}
-
-## Hard constraints
-- No filler phrases: "In today's video", "Don't forget to like", "Stay tuned"
-- No buzzword soup: "leverage", "synergy", "game-changer"
-- No lists read out loud — it sounds robotic
-- Plain text only — Piper TTS will read everything literally
-
-## Output
-Return only the script. No title, no label, no explanation.
 `;
+};
 
 export const captionPrompt = (script: string) => `
 Write a short Instagram caption for this reel.
@@ -78,10 +69,12 @@ Respond ONLY with valid JSON. No explanation, no markdown fences.
 }
 `;
 
-export const aiDataCallPrompt = (completedIdeas: ICompletedIdea[]) => {
+export const aiDataCallPrompt = async (completedIdeas: ICompletedIdea[]): Promise<string> => {
+  const base = await getTopicGenerationBase();
   const hasExistingIdeas = completedIdeas.length > 0;
 
-  return `
+  return `${base}
+
 # Role and Goal
 
 You are a world-class **Instagram Content Strategist and Idea Generator**.
@@ -133,20 +126,6 @@ ${
 `
 }
 
-# Output Structure (Required JSON Format)
-
-Your response MUST be a valid JSON object with this exact structure:
-
-{
-  "topic": "<concise, compelling topic title>",
-  "length": "<short | medium | long>",
-  "language": "<language code or name, e.g. English>",
-  "tone": "<e.g. motivational | educational | conversational | controversial | humorous | storytelling>",
-  "style": "<e.g. talking head | voiceover | text-on-screen | interview | tutorial | listicle>",
-  "format": "<e.g. reel | carousel | story>",
-  "purpose": "<e.g. awareness | engagement | lead generation | entertainment | education>"
-}
-
 ${
   hasExistingIdeas
     ? `
@@ -165,12 +144,6 @@ ${
     : ""
 }
 
-# Output Constraints
-
-- Return ONLY the JSON object — no commentary, no markdown, no explanation
-- All fields are required
-- \`topic\` must be specific and compelling, not generic
-
 ${
   hasExistingIdeas
     ? `
@@ -180,5 +153,5 @@ ${JSON.stringify(completedIdeas, null, 2)}
 `
     : ""
 }
-  `;
+`;
 };

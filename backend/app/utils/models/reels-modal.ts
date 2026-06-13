@@ -1,15 +1,14 @@
 import mongoose, { Schema, type Document, type Types } from "mongoose";
 
 export interface IReelAnalytics {
-  likes: number;
-  comments: number;
+  views: number;
   reach: number;
-  plays: number;
-  saves: number;
+  saved: number;
   shares: number;
-  impressions: number;
-  engagementRate: number;
-  lastFetchedAt: Date;
+  comments: number;
+  likes: number;
+  avg_watch_time_ms: number;
+  fetched_at: Date;
 }
 
 export interface IReel extends Document {
@@ -26,15 +25,14 @@ export interface IReel extends Document {
 
 const ReelAnalyticsSchema = new Schema<IReelAnalytics>(
   {
-    likes: { type: Number, default: 0 },
-    comments: { type: Number, default: 0 },
+    views: { type: Number, default: 0 },
     reach: { type: Number, default: 0 },
-    plays: { type: Number, default: 0 },
-    saves: { type: Number, default: 0 },
+    saved: { type: Number, default: 0 },
     shares: { type: Number, default: 0 },
-    impressions: { type: Number, default: 0 },
-    engagementRate: { type: Number, default: 0 },
-    lastFetchedAt: { type: Date },
+    comments: { type: Number, default: 0 },
+    likes: { type: Number, default: 0 },
+    avg_watch_time_ms: { type: Number, default: 0 },
+    fetched_at: { type: Date },
   },
   { _id: false }
 );

@@ -26,7 +26,7 @@ export const scriptAgentService = async (data: Iscript_agent): Promise<Iscript_a
   let lastEval: IevaluationResult | null = null;
 
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
-    const prompt = scriptAgentPrompt(data, lastEval?.feedback);
+    const prompt = await scriptAgentPrompt(data, lastEval?.feedback);
 
     const result = await openRouterClient.chat.send({
       chatRequest: {
