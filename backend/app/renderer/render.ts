@@ -49,14 +49,14 @@ function toFileUrl(serverUrl: string, absolutePath: string): string {
 async function getBundle(): Promise<string> {
   if (bundleCache) return bundleCache;
 
-  process.stdout.write("Bundling Remotion composition...\n");
+  process.stdout.write("[Render] Bundling Remotion composition...\n");
   bundleCache = await bundle({
     entryPoint: path.resolve(import.meta.dir, "./Root.tsx"),
     onProgress: (progress) => {
-      process.stdout.write(`\rBundling: ${progress}%   `);
+      process.stdout.write(`\r[Render] Bundling: ${progress}%   `);
     },
   });
-  process.stdout.write("\nBundle ready.\n");
+  process.stdout.write("\n[Render] Bundle ready.\n");
   return bundleCache;
 }
 
@@ -66,12 +66,12 @@ async function getClipDurationSeconds(clipPath: string): Promise<number> {
       await Bun.$`ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 ${clipPath}`.text();
     const seconds = parseFloat(result.trim());
     if (isNaN(seconds) || seconds <= 0) {
-      console.warn(`[render] ffprobe returned invalid duration for ${clipPath}`);
+      console.warn(`[Render] ffprobe returned invalid duration for ${clipPath}`);
       return 0;
     }
     return seconds;
   } catch (e) {
-    console.error(`[render] ffprobe failed for ${clipPath}:`, e);
+    console.error(`[Render] ffprobe failed for ${clipPath}:`, e);
     return 0;
   }
 }
@@ -107,7 +107,7 @@ export async function renderReel(input: RenderReelInput, outputPath: string): Pr
   const clipStartFrame = Math.floor(clipStartSecs * fps);
 
   console.log(
-    `[render] Clip: ${clipPath.split("/").pop()} | duration=${clipDurationSecs.toFixed(1)}s | audio=${audioDurationSecs.toFixed(1)}s | maxStart=${maxStartSecs.toFixed(1)}s | startAt=${clipStartSecs.toFixed(1)}s (frame ${clipStartFrame}) | prev=${prevStartSecs !== null ? prevStartSecs.toFixed(1) + "s" : "none"}`
+    `[Render] Clip: ${clipPath.split("/").pop()} | duration=${clipDurationSecs.toFixed(1)}s | audio=${audioDurationSecs.toFixed(1)}s | maxStart=${maxStartSecs.toFixed(1)}s | startAt=${clipStartSecs.toFixed(1)}s (frame ${clipStartFrame}) | prev=${prevStartSecs !== null ? prevStartSecs.toFixed(1) + "s" : "none"}`
   );
 
   const serverUrl = getFileServerUrl();

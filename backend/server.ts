@@ -9,4 +9,4 @@ const server = Bun.serve({
   idleTimeout: 0,
 });
 
-console.log(`Server running on http://localhost:${server.port}`);
+console.log(`[Server] Running on http://localhost:${server.port}`);
