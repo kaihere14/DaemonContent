@@ -1,0 +1,9 @@
+node_modules
+.env
+clips
+outputs
+logs
+dist
+.cache
+*.tsbuildinfo
+.DS_Store

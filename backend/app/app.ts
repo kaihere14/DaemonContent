@@ -1,5 +1,6 @@
 import { agentRoutes } from "./agent/agent-routes";
 import { analyticsRoutes } from "./analytics/analytics-routes";
+import { pipelineRoutes } from "./pipeline/pipeline-routes";
 import path from "path";
 
 const OUTPUTS_DIR = path.resolve(import.meta.dir, "../outputs");
@@ -17,4 +18,5 @@ export const routes = {
   },
   ...agentRoutes,
   ...analyticsRoutes,
+  ...pipelineRoutes,
 };
